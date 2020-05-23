@@ -498,6 +498,8 @@ func (conf *ResourceConfig) injectPodSpec(values *patch) {
 		UID:                           conf.proxyUID(),
 		Resources:                     conf.proxyResourceRequirements(),
 		WaitBeforeExitSeconds:         conf.proxyWaitBeforeExitSeconds(),
+		WaitHTTPFailBeforeExitPath:    conf.proxyWaitHTTPFailBeforeExitPath(),
+		WaitHTTPFailBeforeExitPort:    conf.proxyWaitHTTPFailBeforeExitPort(),
 		RequireIdentityOnInboundPorts: conf.requireIdentityOnInboundPorts(),
 	}
 
@@ -818,6 +820,27 @@ func (conf *ResourceConfig) proxyWaitBeforeExitSeconds() uint64 {
 	}
 
 	return 0
+}
+
+func (conf *ResourceConfig) proxyWaitHTTPFailBeforeExitPath() string {
+	if override := conf.getOverride(k8s.ProxyWaitHTTPFailBeforeExitPathAnnotation); override != "" {
+		return override
+	}
+	return ""
+}
+
+func (conf *ResourceConfig) proxyWaitHTTPFailBeforeExitPort() uint {
+	if override := conf.getOverride(k8s.ProxyWaitHTTPFailBeforeExitPortAnnotation); override != "" {
+		waitHTTPFailBeforeExitPort, err := strconv.ParseUint(override, 10, 64)
+		if nil != err {
+			log.Warnf("unrecognized value used for the %s annotation, uint64 is expected: %s",
+				k8s.ProxyWaitHTTPFailBeforeExitPortAnnotation, override)
+		}
+
+		return uint(waitHTTPFailBeforeExitPort)
+	}
+
+	return 80
 }
 
 func (conf *ResourceConfig) proxyResourceRequirements() *l5dcharts.Resources {

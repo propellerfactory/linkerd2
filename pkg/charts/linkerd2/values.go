@@ -112,6 +112,8 @@ type (
 		Trace                         *Trace        `json:"trace"`
 		UID                           int64         `json:"uid"`
 		WaitBeforeExitSeconds         uint64        `json:"waitBeforeExitSeconds"`
+		WaitHTTPFailBeforeExitPath    string        `json:"waitHttpFailBeforeExitPath"`
+		WaitHTTPFailBeforeExitPort    uint          `json:"waitHttpFailBeforeExitPort"`
 		RequireIdentityOnInboundPorts string        `json:"requireIdentityOnInboundPorts"`
 	}
 

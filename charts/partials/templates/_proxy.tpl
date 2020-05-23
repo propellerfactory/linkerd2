@@ -127,6 +127,13 @@ lifecycle:
         - -c
         - sleep {{.Values.global.proxy.waitBeforeExitSeconds}}
 {{- end }}
+{{- if .Values.global.proxy.waitHttpFailBeforeExitPath }}
+lifecycle:
+  preStop:
+    httpGet:
+      path: {{.Values.global.proxy.waitHttpFailBeforeExitPath}}
+      path: {{.Values.global.proxy.waitHttpFailBeforeExitPort}}      
+{{- end }}
 {{- if or (.Values.global.proxy.trace.collectorSvcAddr) (.Values.global.controlPlaneTracing)  (not .Values.global.proxy.disableIdentity) (.Values.global.proxy.saMountPath) }}
 volumeMounts:
 {{- if or (.Values.global.proxy.trace.collectorSvcAddr) (.Values.global.controlPlaneTracing) }}

@@ -218,6 +218,14 @@ const (
 	// configured for the Pod
 	ProxyWaitBeforeExitSecondsAnnotation = ProxyConfigAnnotationsPrefixAlpha + "/proxy-wait-before-exit-seconds"
 
+	// ProxyWaitHTTPFailBeforeExitPathAnnotation makes the proxy container to wait for the specified path
+	// at the port ProxyWaitHTTPFailBeforeExitPortAnnotation to stop returning HTTP success before exiting.
+	ProxyWaitHTTPFailBeforeExitPathAnnotation = ProxyConfigAnnotationsPrefixAlpha + "/proxy-wait-http-fail-before-exit-path"
+
+	// ProxyWaitHTTPFailBeforeExitPortAnnotation makes the proxy container to wait for the specified
+	// port and ProxyWaitHTTPFailBeforeExitPortAnnotation to stop returning HTTP success before exiting.
+	ProxyWaitHTTPFailBeforeExitPortAnnotation = ProxyConfigAnnotationsPrefixAlpha + "/proxy-wait-http-fail-before-exit-port"
+
 	// ProxyTraceCollectorSvcAccountAnnotation is used to specify the service account
 	// associated with the trace collector. It is used to create the service's
 	// mTLS identity.

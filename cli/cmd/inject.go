@@ -111,6 +111,14 @@ sub-folders, or coming from stdin.`,
 		"The period during which the proxy sidecar must stay alive while its pod is terminating. "+
 			"Must be smaller than terminationGracePeriodSeconds for the pod (default 0)",
 	)
+	flags.StringVar(
+		&options.waitHTTPFailBeforeExitPath, "wait-http-fail-before-exit-path", options.waitHTTPFailBeforeExitPath,
+		"The path the postStop hook will check via HTTP for 200 level OK that the proxy sidecar must stay alive. ",
+	)
+	flags.UintVar(
+		&options.waitHTTPFailBeforeExitPort, "wait-before-exit-http-port", options.waitHTTPFailBeforeExitPort,
+		"The port the postStop hook will check via HTTP for 200 level OK that the proxy sidecar must stay alive. ",
+	)
 	flags.BoolVar(
 		&options.disableIdentity, "disable-identity", options.disableIdentity,
 		"Disables resources from participating in TLS identity",
@@ -475,6 +483,12 @@ func (options *proxyConfigOptions) overrideConfigs(configs *cfg.All, overrideAnn
 	}
 	if options.waitBeforeExitSeconds != 0 {
 		overrideAnnotations[k8s.ProxyWaitBeforeExitSecondsAnnotation] = uintToString(options.waitBeforeExitSeconds)
+	}
+	if options.waitHTTPFailBeforeExitPath != "" {
+		overrideAnnotations[k8s.ProxyWaitHTTPFailBeforeExitPathAnnotation] = options.waitHTTPFailBeforeExitPath
+	}
+	if options.waitHTTPFailBeforeExitPort != 0 {
+		overrideAnnotations[k8s.ProxyWaitHTTPFailBeforeExitPortAnnotation] = uintToString(uint64(options.waitHTTPFailBeforeExitPort))
 	}
 }
 

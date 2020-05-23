@@ -223,5 +223,13 @@ func generateAnnotationsDocs() []annotationDoc {
 			Name:        k8s.ProxyWaitBeforeExitSecondsAnnotation,
 			Description: "The proxy sidecar will stay alive for at least the given period before receiving SIGTERM signal from Kubernetes but no longer than pod's `terminationGracePeriodSeconds`. If not provided, it will be defaulted to `0`",
 		},
+		{
+			Name:        k8s.ProxyWaitHTTPFailBeforeExitPathAnnotation,
+			Description: "The proxy sidecar will stay alive until the specified path stops reporting HTTP success before receiving SIGTERM signal from Kubernetes but no longer than pod's `terminationGracePeriodSeconds`. If not provided, it will be defaulted to ``",
+		},
+		{
+			Name:        k8s.ProxyWaitHTTPFailBeforeExitPortAnnotation,
+			Description: "The proxy sidecar will stay alive until the specified port stops reporting HTTP success before receiving SIGTERM signal from Kubernetes but no longer than pod's `terminationGracePeriodSeconds`. If not provided, it will be defaulted to `80`",
+		},
 	}
 }
